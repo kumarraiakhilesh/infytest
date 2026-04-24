@@ -1,0 +1,46 @@
+
+
+trigger: none
+
+pool:
+  name: infy
+
+stages:
+
+# 🔹 Stage 1: Init + Plan
+- stage: terraformstages
+  displayName: Terraform Stage
+  jobs:
+  - job: terraformjob
+    displayName: Terraform Job
+    steps:
+
+    - task: TerraformInstaller@1
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'infytest'
+        backendAzureRmResourceGroupName: 'matru'
+        backendAzureRmStorageAccountName: 'mlki'
+        backendAzureRmContainerName: 'mogli'
+        backendAzureRmKey: 'infy.tfstate'
+
+    - task: TerraformTask@5
+      displayName: Terraform Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        environmentServiceNameAzureRM: 'infytest'
+
+    - task: TerraformTask@5
+      displayName: Terraform Apply
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        environmentServiceNameAzureRM: 'infytest'
+        args: '-auto-approve'
