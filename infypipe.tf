@@ -14,3 +14,10 @@ resource "azurerm_resource_group" "rgkaka" {
     name="matab"
   location="uksouth"
 }
+resource "azurerm_storage_account"dyiniya"{
+name="maihuna"
+resource_group_name="azurerm_resource_group.matab"
+location="azurerm_resource_group.uksouth"
+ account_tier ="Standard"
+account_replication_type="GRS"
+}
